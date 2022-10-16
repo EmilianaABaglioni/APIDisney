@@ -22,21 +22,21 @@ const usersController = {
             db.Users
             .create(createUser)
             .then((user) => {
-                    const token = jwt.sign({ id: user.id, username: user.username }, 'secretKey', { expiresIn: '7d' })
+                const token = jwt.sign({ id: user.id, username: user.username }, 'secretKey')
 
-                    return res.status(201).json({
-                            msg: 'Usuario registrado',
-                            user: {
-                                 id: user.id,
-                                username: user.username
-                            },
-                            token
-                        })
+                return res.status(201).json({
+                         msg: 'Usuario registrado',
+                        user: {
+                            id: user.id,
+                            username: user.username
+                        },
+                        token
                     })
+                })
             .catch(error => { console.log(error) })
-                } else {
-                    res.json({ msg: 'The email is already associated with an account' })
-                }
+            } else {
+                res.json({ msg: 'The email is already associated with an account' })
+            }
             })
         .catch(err => { console.log(err) })
 
@@ -49,7 +49,7 @@ const usersController = {
         })
         .then(userInDb => {
             if (userInDb != undefined && bcrypt.compareSync(req.body.password, userInDb.password)) {
-                const token = jwt.sign({ id: userInDb.id, username: userInDb.username }, 'secretKey', { expiresIn: '7d' })
+                const token = jwt.sign({ id: userInDb.id, username: userInDb.username }, 'secretKey')
 
                 return res.json({
                     msg: 'User logged',
